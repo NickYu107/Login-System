@@ -1,0 +1,82 @@
+//SQL
+create table posts (
+	id int(11) not null PRIMARY KEY AUTO_INCREMENT,
+    subject varchar(128) not null,
+    content varchar(128) not null,
+    date datetime not null
+    
+);
+
+insert into posts (subject, content, date) VALUES ('This is the subject','Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat','2018-11-14 15:58:12');
+
+//Hashing
+<?php
+    //Hasing
+    /*echo "test123";
+    echo "<br>";
+    echo password_hash("test123", PASSWORD_DEFAULT);*/
+
+    $input = "test123";
+    $hashedPwdInDb = password_hash($input, PASSWORD_DEFAULT);
+
+    echo password_verify($input, $hashedPwdInDb);
+?>
+
+//Alert Box
+<?php
+    echo '<script language="javascript">';
+    echo 'alert("message successfully sent")';
+    echo '</script>';
+?>
+
+//Preoared Statement (used to prevent SQL comand injection)
+<?php
+    include_once "includes/dbh.inc.php";
+    $data = "Admin";
+    //Created a template, assume connection has already been established
+    $sql = "SELECT * FROM users WHERE user_uid=?;";
+    //Create a prepared statement
+    $stmt = mysqli_stmt_init($conn);
+    //Prepare the prepared statement
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        echo "SQL statement failed";
+    }else{
+        //Bind parameters to the placeholder
+        mysqli_stmt_bind_param($stmt, "s", $data); //If a second parameter exists in sql query, this becomes "ss" meaning string, string
+        //Run parameters inside database
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        while ($row = mysqli_fetch_assoc($result)){
+            echo $row['user_uid']."<br>";
+        }
+    }
+?>
+
+//HTML form used for login and signup
+<form action="includes/login.inc.php" method="POST">
+    <input type="text" name="uid" placeholder="Username/e-mail">
+    <input type="password" name="pwd" placeholder="Username/password">
+    <button type="submit" name="submit">Login</button>
+</form>
+//Used in conjunction  with below to check if button is been clicked
+isset($_POST['submit']
+
+
+//A list of php super gloabals and functions
+$_POST                                                                          By post method
+$_GET                                                                           By URL (?a=b&c=d)
+$_SESSION                                                                       Used to remember the certain variables during sessions
+
+include_once 'header.php';                                                      Include certain file
+isset($_SESSION['$a']) ;                                                        Check if the variable is set
+$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);       Used to connect to SQL 
+mysqli_real_escape_string($conn, $_POST['variable']);                           Used to prevent user from typing code
+empty($v)                                                                       Check if a variable is null
+preg_match("/^[a-zA-Z]*$/", $first)                                             Check variable format, true if matches, false otherwise
+filter_var($email, FILTER_VALIDATE_EMAIL)                                       Check for valid email, return true if valid, false oterhwise
+mysqli_query($conn, $sql)                                                       Perform certain query based on the SQL command in $sql
+header("Location: ....");                                                       Go back to certain location
+strpos($v, "string");                                                           Check if a string exist in $v , returns the location
+session_start();                                                                Used to start a session
+session_unset();                                                                Used to unset all session variables
+session_destroy();                                                              Used to destroy the current session
